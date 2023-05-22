@@ -54,7 +54,7 @@ namespace QuokkaDev.Middleware.Correlation
             return loggerState;
         }
 
-        private string GetCorrelationId(HttpContext httpContext, string? headerName, ICorrelationIdProvider correlationIdProvider)
+        private static string GetCorrelationId(HttpContext httpContext, string? headerName, ICorrelationIdProvider correlationIdProvider)
         {
             string? correlationId = null;
 
@@ -66,7 +66,7 @@ namespace QuokkaDev.Middleware.Correlation
             return string.IsNullOrWhiteSpace(correlationId) ? correlationIdProvider.GenerateCorrelationId() : correlationId;
         }
 
-        private string? GetHeaderName(HttpContext httpContext)
+        private static string? GetHeaderName(HttpContext httpContext)
         {
             string? headerName = null;
             var headers = httpContext.Request.Headers;
