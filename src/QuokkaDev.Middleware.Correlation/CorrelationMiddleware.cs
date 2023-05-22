@@ -66,7 +66,7 @@ namespace QuokkaDev.Middleware.Correlation
             return string.IsNullOrWhiteSpace(correlationId) ? correlationIdProvider.GenerateCorrelationId() : correlationId;
         }
 
-        private static string? GetHeaderName(HttpContext httpContext)
+        private string? GetHeaderName(HttpContext httpContext)
         {
             string? headerName = null;
             var headers = httpContext.Request.Headers;
