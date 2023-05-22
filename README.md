@@ -1,2 +1,1 @@
-# quokkadev-middleware-correlation
-ASPNet middleware for correlating requests
+# QuokkaDev.Middleware.Correlation
