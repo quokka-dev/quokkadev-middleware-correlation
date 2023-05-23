@@ -26,10 +26,31 @@ namespace QuokkaDev.Middleware.Correlation
             return builder.UseMiddleware<CorrelationMiddleware>(options);
         }
 
+        public static IServiceCollection AddCorrelationWithService<TCorrelationService>(this IServiceCollection services)
+            where TCorrelationService : class, ICorrelationService
+        {
+            return services.AddCorrelation<TCorrelationService, GuidCorrelationIdProvider>();
+        }
+
+        public static IServiceCollection AddCorrelationWithProvider<TCorrelationIdProvider>(this IServiceCollection services)
+            where TCorrelationIdProvider : class, ICorrelationIdProvider
+        {
+            return services.AddCorrelation<CorrelationService, TCorrelationIdProvider>();
+        }
+
         public static IServiceCollection AddCorrelation(this IServiceCollection services)
         {
             services.TryAddScoped<ICorrelationService, CorrelationService>();
             services.TryAddTransient<ICorrelationIdProvider, GuidCorrelationIdProvider>();
+            return services;
+        }
+
+        public static IServiceCollection AddCorrelation<TCorrelationService, TCorrelationIdProvider>(this IServiceCollection services)
+            where TCorrelationService : class, ICorrelationService
+            where TCorrelationIdProvider : class, ICorrelationIdProvider
+        {
+            services.TryAddScoped<ICorrelationService, TCorrelationService>();
+            services.TryAddTransient<ICorrelationIdProvider, TCorrelationIdProvider>();
             return services;
         }
 
@@ -39,9 +60,9 @@ namespace QuokkaDev.Middleware.Correlation
         /// <param name="builder">The <see cref="IHttpClientBuilder"/> to add the services to.</param>
         /// <param name="requestHeader">The request header name to set the correlation id in.</param>
         /// <returns>The <see cref="IHttpClientBuilder"/> so that additional calls can be chained.</returns>
-        public static IHttpClientBuilder CorrelateRequests(this IHttpClientBuilder builder, string requestHeader = Constants.DEFAULT_CORRELATION_HEADER_NAME)
+        public static IHttpClientBuilder ForwardCorrelationId(this IHttpClientBuilder builder, string requestHeader = Constants.DEFAULT_CORRELATION_HEADER_NAME)
         {
-            return builder.CorrelateRequests(options => options.DefaultHeaderName = requestHeader);
+            return builder.ForwardCorrelationId(options => options.DefaultHeaderName = requestHeader);
         }
 
         /// <summary>
@@ -50,9 +71,9 @@ namespace QuokkaDev.Middleware.Correlation
         /// <param name="builder">The <see cref="IHttpClientBuilder"/> to add the services to.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/> used to configure <see cref="CorrelateClientOptions"/>.</param>
         /// <returns>The <see cref="IHttpClientBuilder"/> so that additional calls can be chained.</returns>
-        public static IHttpClientBuilder CorrelateRequests(this IHttpClientBuilder builder, IConfiguration configuration)
+        public static IHttpClientBuilder ForwardCorrelationId(this IHttpClientBuilder builder, IConfiguration configuration)
         {
-            return builder.CorrelateRequests(configuration.Bind);
+            return builder.ForwardCorrelationId(configuration.Bind);
         }
 
         /// <summary>
@@ -61,7 +82,7 @@ namespace QuokkaDev.Middleware.Correlation
         /// <param name="builder">The <see cref="IHttpClientBuilder"/> to add the services to.</param>
         /// <param name="configureOptions">The action used to configure <see cref="CorrelateClientOptions"/>.</param>
         /// <returns>The <see cref="IHttpClientBuilder"/> so that additional calls can be chained.</returns>
-        public static IHttpClientBuilder CorrelateRequests(this IHttpClientBuilder builder, Action<CorrelationOptions> configureOptions)
+        public static IHttpClientBuilder ForwardCorrelationId(this IHttpClientBuilder builder, Action<CorrelationOptions> configureOptions)
         {
             if (builder is null)
             {

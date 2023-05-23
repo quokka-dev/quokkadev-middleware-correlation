@@ -16,16 +16,21 @@ namespace QuokkaDev.Middleware.Correlation
             this.logger = logger;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext, ICorrelationService correlationService, ICorrelationIdProvider correlationIdProvider)
+        public Task InvokeAsync(HttpContext httpContext, ICorrelationService correlationService, ICorrelationIdProvider correlationIdProvider)
         {
             if (httpContext == null)
             {
                 throw new ArgumentException("HttpContext cannot be null", nameof(httpContext));
             }
 
+            return InvokeInternalAsync(httpContext, correlationService, correlationIdProvider);
+        }
+
+        private async Task InvokeInternalAsync(HttpContext httpContext, ICorrelationService correlationService, ICorrelationIdProvider correlationIdProvider)
+        {
             var headerName = GetHeaderName(httpContext);
             var correlationID = GetCorrelationId(httpContext, headerName, correlationIdProvider);
-            correlationService?.SetCorrelationID(correlationID);
+            correlationService.SetCorrelationID(correlationID);
 
             if (options.WriteCorrelationIDToResponse)
             {

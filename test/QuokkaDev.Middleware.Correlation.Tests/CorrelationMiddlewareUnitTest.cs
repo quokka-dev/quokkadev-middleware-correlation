@@ -14,10 +14,10 @@ namespace QuokkaDev.Middleware.Correlation.Tests
 {
     public class CorrelationMiddlewareUnitTest
     {
-        private static readonly string fakeId = "MY-FAKE-ID";
-        private static readonly string fakeIdFromRequest = "MY-FAKE-ID-FROM-REQUEST";
-        private static readonly string headerNameInRequest = "X-CorrelationId";
-        private static readonly string defaultHeaderName = "My-X-CorrelationId";
+        private const string fakeId = "MY-FAKE-ID";
+        private const string fakeIdFromRequest = "MY-FAKE-ID-FROM-REQUEST";
+        private const string headerNameInRequest = "X-CorrelationId";
+        private const string defaultHeaderName = "My-X-CorrelationId";
 
         public CorrelationMiddlewareUnitTest()
         {
@@ -116,11 +116,9 @@ namespace QuokkaDev.Middleware.Correlation.Tests
             Times timesShouldBeCalled = enrichLog ? Times.Once() : Times.Never();
 
             loggerMock.Verify(m => m.BeginScope<Dictionary<string, object>>(It.IsAny<Dictionary<string, object>>()), timesShouldBeCalled);
-
         }
 
-
-        private CorrelationMiddleware GetCorrelationMiddleware(CorrelationOptions options, ILogger<CorrelationMiddleware>? logger = null)
+        private static CorrelationMiddleware GetCorrelationMiddleware(CorrelationOptions options, ILogger<CorrelationMiddleware>? logger = null)
         {
             RequestDelegate next = (HttpContext _) => Task.CompletedTask;
 
@@ -135,14 +133,14 @@ namespace QuokkaDev.Middleware.Correlation.Tests
             return mock.Object;
         }
 
-        private ICorrelationService GetCorrelationService()
+        private static ICorrelationService GetCorrelationService()
         {
             var mock = new Mock<ICorrelationService>();
             mock.Setup(m => m.GetCurrentCorrelationID()).Returns(fakeId);
             return mock.Object;
         }
 
-        private ICorrelationIdProvider GetCorrelationIdProvider()
+        private static ICorrelationIdProvider GetCorrelationIdProvider()
         {
             var mock = new Mock<ICorrelationIdProvider>();
             mock.Setup(m => m.GenerateCorrelationId()).Returns(fakeId);
