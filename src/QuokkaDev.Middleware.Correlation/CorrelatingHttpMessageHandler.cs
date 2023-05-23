@@ -17,7 +17,7 @@ namespace QuokkaDev.Middleware.Correlation
         public CorrelatingHttpMessageHandler(IOptions<CorrelationOptions> options, IHttpContextAccessor accessor)
             : base()
         {
-            this.options = options?.Value ?? new CorrelationOptions();
+            this.options = options.Value ?? new CorrelationOptions();
             this.accessor = accessor;
         }
 
@@ -30,7 +30,7 @@ namespace QuokkaDev.Middleware.Correlation
         public CorrelatingHttpMessageHandler(IOptions<CorrelationOptions> options, HttpMessageHandler innerHandler, IHttpContextAccessor accessor)
             : base(innerHandler)
         {
-            this.options = options?.Value ?? new CorrelationOptions();
+            this.options = options.Value ?? new CorrelationOptions();
             this.accessor = accessor;
         }
 
@@ -44,7 +44,7 @@ namespace QuokkaDev.Middleware.Correlation
 
             var correlationService = accessor.HttpContext.RequestServices.GetRequiredService<ICorrelationService>();
 
-            var correlationId = correlationService?.GetCurrentCorrelationID();
+            var correlationId = correlationService.GetCurrentCorrelationID();
             if (correlationId != null && !request.Headers.Contains(options.DefaultHeaderName))
             {
                 request.Headers.TryAddWithoutValidation(options.DefaultHeaderName, correlationId);

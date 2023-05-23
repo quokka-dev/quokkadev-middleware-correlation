@@ -17,6 +17,7 @@ namespace QuokkaDev.Middleware.Correlation.Tests
 {
     public class IntegrationTests
     {
+        private const string GUID_REGEX = "^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$";
 
 
         public IntegrationTests()
@@ -55,7 +56,7 @@ namespace QuokkaDev.Middleware.Correlation.Tests
             // Assert            
             correlationId.Should().NotBeNull();
             correlationId.Should().NotBeEmpty();
-            correlationId.Should().MatchRegex(@"^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$");
+            correlationId.Should().MatchRegex(GUID_REGEX);
         }
 
         [Fact(DisplayName = "Correlation Id Should Be Forwarded")]
@@ -80,11 +81,11 @@ namespace QuokkaDev.Middleware.Correlation.Tests
 
             headerValue.Should().NotBeNull();
             headerValue.Should().NotBeEmpty();
-            headerValue.Should().MatchRegex(@"^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$");
+            headerValue.Should().MatchRegex(GUID_REGEX);
             headerValue.Should().BeEquivalentTo(correlationId);
         }
 
-        private IHostBuilder GetWebHostBuilder(Action<CorrelationOptions>? configureOptions = null, bool forwardCorrelationId = false)
+        private static IHostBuilder GetWebHostBuilder(Action<CorrelationOptions>? configureOptions = null, bool forwardCorrelationId = false)
         {
             var hostBuilder = new HostBuilder().ConfigureWebHost(webHostBuilder =>
             {

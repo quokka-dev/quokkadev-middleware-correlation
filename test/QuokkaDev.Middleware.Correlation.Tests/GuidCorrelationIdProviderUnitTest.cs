@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using System;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace QuokkaDev.Middleware.Correlation.Tests
@@ -12,7 +11,7 @@ namespace QuokkaDev.Middleware.Correlation.Tests
         }
 
         [Fact(DisplayName = "Non Empty Guid Should Be Generated")]
-        public async Task NonEmptyGuidShouldBeGenerated()
+        public void NonEmptyGuidShouldBeGenerated()
         {
             // Arrange
             GuidCorrelationIdProvider provider = new GuidCorrelationIdProvider();
@@ -25,7 +24,7 @@ namespace QuokkaDev.Middleware.Correlation.Tests
         }
 
         [Fact(DisplayName = "Non Empty String Should Be Generated")]
-        public async Task NonEmptyStringBeGenerated()
+        public void NonEmptyStringBeGenerated()
         {
             // Arrange
             GuidCorrelationIdProvider provider = new GuidCorrelationIdProvider();
@@ -39,7 +38,7 @@ namespace QuokkaDev.Middleware.Correlation.Tests
         }
 
         [Fact(DisplayName = "A Guid Should Be Generated")]
-        public async Task AGuidShouldBeGenerated()
+        public void AGuidShouldBeGenerated()
         {
             // Arrange
             GuidCorrelationIdProvider provider = new GuidCorrelationIdProvider();
@@ -48,7 +47,7 @@ namespace QuokkaDev.Middleware.Correlation.Tests
             string guid = provider.GenerateCorrelationId();
 
             // Assert
-            guid.Should().MatchRegex(@"^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$");
+            guid.Should().MatchRegex("^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$");
         }
     }
 }
