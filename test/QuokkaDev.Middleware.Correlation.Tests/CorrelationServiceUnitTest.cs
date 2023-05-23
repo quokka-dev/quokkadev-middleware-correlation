@@ -10,7 +10,7 @@ public class CorrelationServiceUnitTest
     {
         // Arrange
         var service = new CorrelationService();
-        string id = "MY-FAKE-ID";
+        const string id = "MY-FAKE-ID";
 
         // Act
         service.SetCorrelationID(id);
@@ -25,15 +25,15 @@ public class CorrelationServiceUnitTest
     {
         // Arrange
         var service = new CorrelationService();
-        string id = "MY-FAKE-ID";
-        string id2 = "MY-FAKE-ID-2";
+        const string id = "MY-FAKE-ID";
+        const string id2 = "MY-FAKE-ID-2";
 
         // Act
         service.SetCorrelationID(id);
         service.SetCorrelationID(id2);
-        string? settedId = service.GetCurrentCorrelationID();
+        string? idSet = service.GetCurrentCorrelationID();
 
         // Assert
-        settedId.Should().NotBe(id2);
+        idSet.Should().NotBe(id2);
     }
 }

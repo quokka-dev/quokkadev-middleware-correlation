@@ -20,7 +20,7 @@ namespace QuokkaDev.Middleware.Correlation
         {
             if (httpContext == null)
             {
-                throw new ArgumentException("", nameof(httpContext));
+                throw new ArgumentException("HttpContext cannot be null", nameof(httpContext));
             }
 
             var headerName = GetHeaderName(httpContext);
