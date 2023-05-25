@@ -59,7 +59,6 @@ namespace QuokkaDev.Middleware.Correlation.Tests
             var mockAccessor = new Mock<IHttpContextAccessor>();
             mockAccessor.Setup(m => m.HttpContext).Returns((HttpContext)context);
 
-
             HttpRequestMessage request = new();
             if (isHeaderAlreadySet)
             {
@@ -91,13 +90,11 @@ namespace QuokkaDev.Middleware.Correlation.Tests
         public CorrelatingHttpMessageHandlerWrapper(IOptions<CorrelationOptions> options, IHttpContextAccessor accessor, ICorrelationForwarder? forwarder = null)
             : base(options, accessor, forwarder)
         {
-
         }
 
         public CorrelatingHttpMessageHandlerWrapper(IOptions<CorrelationOptions> options, HttpMessageHandler innerHandler, IHttpContextAccessor accessor, ICorrelationForwarder? forwarder = null)
             : base(options, innerHandler, accessor, forwarder)
         {
-
         }
 
         public Task<HttpResponseMessage> WrappedSendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
