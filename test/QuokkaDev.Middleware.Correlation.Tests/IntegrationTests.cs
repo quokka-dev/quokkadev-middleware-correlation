@@ -19,7 +19,6 @@ namespace QuokkaDev.Middleware.Correlation.Tests
     {
         private const string GUID_REGEX = "^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$";
 
-
         public IntegrationTests()
         {
         }

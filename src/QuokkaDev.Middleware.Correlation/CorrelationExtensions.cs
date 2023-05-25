@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -63,17 +62,6 @@ namespace QuokkaDev.Middleware.Correlation
         public static IHttpClientBuilder ForwardCorrelationId(this IHttpClientBuilder builder, string requestHeader = Constants.DEFAULT_CORRELATION_HEADER_NAME)
         {
             return builder.ForwardCorrelationId(options => options.DefaultHeaderName = requestHeader);
-        }
-
-        /// <summary>
-        /// Adds services required for adding correlation id to each outgoing <see cref="HttpClient"/> request.
-        /// </summary>
-        /// <param name="builder">The <see cref="IHttpClientBuilder"/> to add the services to.</param>
-        /// <param name="configuration">The <see cref="IConfiguration"/> used to configure <see cref="CorrelateClientOptions"/>.</param>
-        /// <returns>The <see cref="IHttpClientBuilder"/> so that additional calls can be chained.</returns>
-        public static IHttpClientBuilder ForwardCorrelationId(this IHttpClientBuilder builder, IConfiguration configuration)
-        {
-            return builder.ForwardCorrelationId(configuration.Bind);
         }
 
         /// <summary>

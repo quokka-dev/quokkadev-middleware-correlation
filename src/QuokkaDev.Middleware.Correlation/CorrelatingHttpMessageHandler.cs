@@ -17,7 +17,7 @@ namespace QuokkaDev.Middleware.Correlation
         public CorrelatingHttpMessageHandler(IOptions<CorrelationOptions> options, IHttpContextAccessor accessor)
             : base()
         {
-            this.options = options.Value ?? new CorrelationOptions();
+            this.options = options.Value;
             this.accessor = accessor;
         }
 
@@ -30,7 +30,7 @@ namespace QuokkaDev.Middleware.Correlation
         public CorrelatingHttpMessageHandler(IOptions<CorrelationOptions> options, HttpMessageHandler innerHandler, IHttpContextAccessor accessor)
             : base(innerHandler)
         {
-            this.options = options.Value ?? new CorrelationOptions();
+            this.options = options.Value;
             this.accessor = accessor;
         }
 
@@ -42,6 +42,11 @@ namespace QuokkaDev.Middleware.Correlation
                 throw new ArgumentNullException(nameof(request));
             }
 
+            return SendInternalAsync(request, cancellationToken);
+        }
+
+        private Task<HttpResponseMessage> SendInternalAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
             var correlationService = accessor.HttpContext.RequestServices.GetRequiredService<ICorrelationService>();
 
             var correlationId = correlationService.GetCurrentCorrelationID();
