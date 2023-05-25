@@ -71,7 +71,7 @@ This service is used for setting and retrieving the correlationId. the default i
 This service is used for generating a new correlationId. The default implementation generate use Guid as correlationIds.
 
 ### Forward correlationId to other services
-You can forward your correlationId to other services called using HttpClient. This can help you to trace the same request from the original client through all the services involved.
+You can forward your correlationId to other services called using .NET HttpClient. This can help you to trace the same request from the original client through all the services involved.
 
 #### **`startup.cs`**
 ```csharp
