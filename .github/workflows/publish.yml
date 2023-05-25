@@ -81,7 +81,7 @@ jobs:
       # Test and reporting
 
       - name: Run tests
-        # For exclude some projects from test coverage append:
+        # For exclude some projects from test coverage append this:
         # DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.ExcludeByFile=**/QuokkaDev.Middleware.Correlation.SomeProject/**/*.cs
         run: dotnet test --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" --results-directory coverage -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover,cobertura
 
