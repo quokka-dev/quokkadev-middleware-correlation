@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Prepare
+      # Prepare environment
 
       - name: Cache NuGet
         uses: actions/cache@v3
